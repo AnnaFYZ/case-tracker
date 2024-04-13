@@ -1,23 +1,42 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Table from './Table';
+
 
 function App() {
+  const [input, setInput] = useState("");
+  const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+    
+  }, []); 
+ 
+    function readTheFile () {
+      fetch("http://localhost:5000")
+        .then((response) => response.json())
+        .then((data) => {
+        setTableData(data);
+        })
+        .catch((error) => console.log(error));
+      }
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+        <label>
+          Enter file location:{" "}
+          <input value={input} onChange={(e) => setInput(e.target.value)} />
+        </label>
+        <button
+          type="submit"
+          onClick={(e) =>
+            readTheFile()
+          }
         >
-          Learn React
-        </a>
+          Enter
+        </button>
       </header>
+      <Table table={tableData} />
     </div>
   );
 }
