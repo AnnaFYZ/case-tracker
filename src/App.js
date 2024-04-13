@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import Table from './Table';
-
+import { ExcelContext } from './ExcelData/ExcelContext';
 
 function App() {
   const [input, setInput] = useState("");
   const [tableData, setTableData] = useState([]);
+  
 
   useEffect(() => {
     
-  }, []); 
+  }, [tableData]); 
  
     function readTheFile () {
       fetch("http://localhost:5000")
@@ -18,6 +19,7 @@ function App() {
         setTableData(data);
         })
         .catch((error) => console.log(error));
+        
       }
 
   return (
@@ -27,16 +29,13 @@ function App() {
           Enter file location:{" "}
           <input value={input} onChange={(e) => setInput(e.target.value)} />
         </label>
-        <button
-          type="submit"
-          onClick={(e) =>
-            readTheFile()
-          }
-        >
+        <button type="submit" onClick={(e) => readTheFile()}>
           Enter
         </button>
       </header>
-      <Table table={tableData} />
+      <ExcelContext.Provider value={{ tableData, setTableData }}>
+        <Table table={tableData} />
+      </ExcelContext.Provider>
     </div>
   );
 }

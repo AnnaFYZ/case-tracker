@@ -1,14 +1,19 @@
 import "./table.css";
+import { useContext } from "react";
+import { ExcelContext } from "./ExcelData/ExcelContext";
 
 const Table = (props) => {
-  console.log(props.table);
-  const nonFormulaTable = props.table.map((row) => {
+  //console.log(props.table);
+  const { tableData, setTableData } = useContext(ExcelContext);
+  
+  const nonFormulaTable = tableData.map((row) => {
     return row.map((item) =>
       typeof item === "object" && item !== null && "result" in item
         ? item.result
         : item
     );
   });
+  
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
