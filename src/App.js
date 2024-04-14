@@ -4,8 +4,12 @@ import Table from './Table';
 import { ExcelContext } from './ExcelData/ExcelContext';
 
 function App() {
-  const [input, setInput] = useState("");
-  const [tableData, setTableData] = useState([]);
+  const [input, setInput] = useState("/home/anna/Documents/my docs/case tracker.xltx");
+  const [tableData, setTableData] = useState([
+    [
+      "no data uploaded"      
+    ],
+  ]);
   
 
   useEffect(() => {
@@ -13,7 +17,8 @@ function App() {
   }, [tableData]); 
  
     function readTheFile () {
-      fetch("http://localhost:5000")
+      const encodedInput = encodeURIComponent(input);
+      fetch(`http://localhost:5000/${encodedInput}`)
         .then((response) => response.json())
         .then((data) => {
         setTableData(data);
