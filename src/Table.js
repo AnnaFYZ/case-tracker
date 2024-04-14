@@ -6,16 +6,6 @@ const Table = (props) => {
   const { tableData, setTableData } = useContext(ExcelContext);
   const [editableCell, setEditableCell] = useState(null);
   
-  const nonFormulaTable = tableData.map((row) => {
-    return row.map((item) =>
-      typeof item === "object" && item !== null && "result" in item
-        ? item.result
-        : item
-    );
-  });
-
-  const maxColumns = Math.max(...tableData.map((row) => row.length));
-  
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
@@ -23,7 +13,7 @@ const Table = (props) => {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
-  console.log(nonFormulaTable);
+  console.log(tableData);
 
   const handleCellClick = (rowIndex, cellIndex) => {
     setEditableCell({ rowIndex, cellIndex }); 
@@ -42,7 +32,7 @@ const Table = (props) => {
       <table>
         <thead>
           <tr>
-            {nonFormulaTable[0].map((header, index) => (
+            {tableData[0].map((header, index) => (
               <th scope="col" id={header} key={index}>
                 {header}
               </th>
@@ -50,7 +40,7 @@ const Table = (props) => {
           </tr>
         </thead>
         <tbody>
-          {nonFormulaTable.slice(1).map((row, rowIndex) => (
+          {tableData.slice(1).map((row, rowIndex) => (
             <tr key={rowIndex} id={rowIndex}>
               <th scope="row"></th>
               {row.slice(1).map((cell, cellIndex) => (
