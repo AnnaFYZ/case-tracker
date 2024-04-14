@@ -6,15 +6,6 @@ const Table = (props) => {
   const { tableData, setTableData } = useContext(ExcelContext);
   const [editableCell, setEditableCell] = useState(null);
   
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
-  console.log(tableData);
-
   const handleCellClick = (rowIndex, cellIndex) => {
     setEditableCell({ rowIndex, cellIndex }); 
   };
@@ -57,11 +48,8 @@ const Table = (props) => {
                       onChange={handleInputChange}
                       onBlur={() => setEditableCell(null)} 
                     />
-                  ) : typeof cell === "string" && cell.includes("T") ? (
-                    formatDate(cell)
-                  ) : (
-                    cell
-                  )}
+                  ) : cell
+                  }
                 </td>
               ))}
             </tr>

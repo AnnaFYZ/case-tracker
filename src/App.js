@@ -24,19 +24,41 @@ function App() {
         setTableData(data);
         })
         .catch((error) => console.log(error));
-        
+      }
+
+      function handleSubmitButton(event) {
+        event.preventDefault();
+        console.log("submitted")
+        const encodedInput = encodeURIComponent(input);
+        fetch(`http://localhost:5000/${encodedInput}`, {
+          method: "PUT", // or 'PUT'
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(tableData),
+        })
+          .then((response) =>       
+             console.log("Status:", response.status)
+          )
+          .catch((error) => console.log(error));
       }
 
   return (
     <div className="App">
       <header className="App-header">
-        <label>
-          Enter file location:{" "}
-          <input value={input} onChange={(e) => setInput(e.target.value)} />
-        </label>
-        <button type="submit" onClick={(e) => readTheFile()}>
-          Enter
-        </button>
+        <div className="enterLocation">
+          <label>
+            Enter file location:{" "}
+            <input value={input} onChange={(e) => setInput(e.target.value)} />
+          </label>
+          <button type="submit" onClick={(e) => readTheFile()}>
+            Enter
+          </button>
+        </div>
+        <div className='saveData'>
+          <button type='submit' onClick={handleSubmitButton}>Save changes</button>
+        </div>
+        <div className='manageData'></div>
       </header>
       <ExcelContext.Provider value={{ tableData, setTableData }}>
         <Table table={tableData} />
