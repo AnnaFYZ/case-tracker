@@ -5,7 +5,7 @@ const port = 5000;
 
 app.use(express.json());
 
-const {readExcelFile} = require("./readExcelFile");
+const {readExcelFile, saveExcelFile} = require("./readExcelFile");
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -26,6 +26,9 @@ app.get("/:path", async (req, res) => {
 app.put("/:path", (req, res) => {
   try {
     const data = req.body;
+    const path = req.params.path;
+    saveExcelFile(data, path);
+    //console.log(data)
     res.sendStatus(200);
 } catch (error) {
     res.status(500).json({ error: error.message });
