@@ -27,14 +27,14 @@ const Table = (props) => {
     const { rowIndex, cellIndex } = editableCell;
     const change = {
       rowIndex: rowIndex + 1,
-      columnIndex: cellIndex - 1,
+      columnIndex: cellIndex,
       value,
     }; 
     if (changes.some((change) =>
-          change.rowIndex === rowIndex+1 && change.columnIndex === cellIndex - 1)) {
+          change.rowIndex === rowIndex+1 && change.columnIndex === cellIndex)) {
             const updatedChanges = changes.map((changeItem) =>
                changeItem.rowIndex === rowIndex+1 &&
-               changeItem.columnIndex === cellIndex - 1
+               changeItem.columnIndex === cellIndex
                  ? { ...changeItem, value }
                   : changeItem );
       setChanges(updatedChanges);

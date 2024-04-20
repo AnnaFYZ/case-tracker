@@ -38,8 +38,11 @@ function App() {
           },
           body: JSON.stringify(changes),
         })
-          .then((response) =>       
-             console.log("Status:", response.status)
+          .then((response) => {
+            console.log("Status:", response.status);
+            setChanges([]);
+          }      
+             
           )
           .catch((error) => console.log(error));
       }

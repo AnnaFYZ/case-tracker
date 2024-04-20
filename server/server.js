@@ -27,7 +27,7 @@ app.put("/:path", (req, res) => {
   try {
     const data = req.body;
     const path = req.params.path;
-    //saveExcelFile(data, path);
+    saveExcelFile(data, path);
     console.log(data)
     res.sendStatus(200);
 } catch (error) {
