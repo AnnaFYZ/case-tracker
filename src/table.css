@@ -1,13 +1,20 @@
 td, th {
     border: 1px solid #777;
-    padding: 0.5rem;
+    padding: 0rem;
     text-align: center;
+    width: 8rem; 
+    /* max-width: 8rem;  */
+    min-width: 8rem;
+    overflow: hidden; /* Hide overflow content */
+    white-space: nowrap; /* Prevent wrapping */
 }
  
 table {
     border-collapse: collapse;
     margin-top: 0.5rem;
     margin-left: 0.5rem;
+    width: 100%; /* Set width to 100% */
+    
 }
  
 tbody tr:nth-child(odd) {
@@ -15,4 +22,13 @@ tbody tr:nth-child(odd) {
 }
 caption {
     font-size: 0.8rem;
+}
+
+.tableInput {
+    width: 7.8rem;
+    margin: 0;
+    padding: 0 0 0 1px;
+    border: none;
+    outline: none;
+    background-color: transparent;
 }

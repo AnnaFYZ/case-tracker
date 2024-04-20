@@ -45,13 +45,28 @@ const Table = (props) => {
     console.log(changes)
   }
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleCellValueChanged(e);
+    }
+  };
+
+
     return (
       <table>
         <thead>
           <tr>
             {tableData[0].map((header, index) => (
               <th scope="col" id={header} key={index}>
-                {header}
+                {header === "status" || header === "assigned to" ? (
+                  <div>
+                    {header}
+                    <select></select>
+                  </div>
+                ) : (
+                  header
+                )}
               </th>
             ))}
           </tr>
@@ -59,23 +74,33 @@ const Table = (props) => {
         <tbody>
           {tableData.slice(1).map((row, rowIndex) => (
             <tr key={rowIndex} id={rowIndex}>
-              
               {row.map((cell, cellIndex) => (
                 <td
+                  className={
+                    editableCell &&
+                    editableCell.rowIndex === rowIndex &&
+                    editableCell.cellIndex === cellIndex
+                      ? "tableInput"
+                      : ""
+                  }
                   key={cellIndex}
-                  onDoubleClick={() => handleCellClick(rowIndex, cellIndex)}
+                  onClick={() => handleCellClick(rowIndex, cellIndex)}
                 >
                   {editableCell &&
                   editableCell.rowIndex === rowIndex &&
                   editableCell.cellIndex === cellIndex ? (
                     <input
+                      className="tableInput"
                       type="text"
                       value={cell}
+                      ref={(input) => input && input.focus()}
                       onChange={handleInputChange}
-                      onBlur={handleCellValueChanged} //record changes into change tracker array
+                      onBlur={handleCellValueChanged}
+                      onKeyDown={handleKeyDown}
                     />
-                  ) : cell
-                  }
+                  ) : (
+                    cell
+                  )}
                 </td>
               ))}
             </tr>
