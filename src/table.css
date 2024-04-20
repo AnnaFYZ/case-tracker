@@ -7,7 +7,7 @@ td, th {
 table {
     border-collapse: collapse;
     margin-top: 0.5rem;
-    
+    margin-left: 0.5rem;
 }
  
 tbody tr:nth-child(odd) {

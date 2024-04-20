@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import Table from './Table';
-import { ExcelContext } from './ExcelData/ExcelContext';
+import { ExcelContext, ChangesContext } from './ExcelData/ExcelContext';
 
 function App() {
   const [input, setInput] = useState("/home/anna/Documents/my docs/case tracker.xltx");
@@ -10,11 +10,10 @@ function App() {
       "no data uploaded"      
     ],
   ]);
+  const [changes, setChanges] = useState([])
   
-
   useEffect(() => {
-    
-  }, [tableData]); 
+      }, [tableData]); 
  
     function readTheFile () {
       const encodedInput = encodeURIComponent(input);
@@ -22,9 +21,11 @@ function App() {
         .then((response) => response.json())
         .then((data) => {
         setTableData(data);
+        console.log(data)
         })
         .catch((error) => console.log(error));
       }
+      
 
       function handleSubmitButton(event) {
         event.preventDefault();
@@ -35,7 +36,7 @@ function App() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(tableData),
+          body: JSON.stringify(changes),
         })
           .then((response) =>       
              console.log("Status:", response.status)
@@ -55,13 +56,17 @@ function App() {
             Enter
           </button>
         </div>
-        <div className='saveData'>
-          <button type='submit' onClick={handleSubmitButton}>Save changes</button>
+        <div className="saveData">
+          <button type="submit" onClick={handleSubmitButton}>
+            Save changes
+          </button>
         </div>
-        <div className='manageData'></div>
+        <div className="manageData"></div>
       </header>
       <ExcelContext.Provider value={{ tableData, setTableData }}>
-        <Table table={tableData} />
+        <ChangesContext.Provider value={{ changes, setChanges}}>
+          <Table table={tableData} />
+        </ChangesContext.Provider>
       </ExcelContext.Provider>
     </div>
   );

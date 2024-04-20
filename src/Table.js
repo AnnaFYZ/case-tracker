@@ -1,12 +1,13 @@
 import "./table.css";
 import { useContext, useState } from "react";
-import { ExcelContext } from "./ExcelData/ExcelContext";
+import { ExcelContext, ChangesContext } from "./ExcelData/ExcelContext";
 
 const Table = (props) => {
   const { tableData, setTableData } = useContext(ExcelContext);
   const [editableCell, setEditableCell] = useState(null);
+  const { changes, setChanges} = useContext(ChangesContext);
   
-  const handleCellClick = (rowIndex, cellIndex) => {
+  const handleCellClick = (rowIndex, cellIndex, event) => {
     setEditableCell({ rowIndex, cellIndex }); 
   };
 
@@ -14,10 +15,35 @@ const Table = (props) => {
     const { value } = e.target;
     const { rowIndex, cellIndex } = editableCell;
     const updatedTableData = [...tableData];
-    console.log(updatedTableData)
-    updatedTableData[rowIndex+1][cellIndex+1] = value;
+    console.log(rowIndex, cellIndex)
+    updatedTableData[rowIndex+1][cellIndex] = value;
     setTableData(updatedTableData);
+    
   };
+
+  const handleCellValueChanged = (e) => {
+    setEditableCell(null)
+    const { value } = e.target;
+    const { rowIndex, cellIndex } = editableCell;
+    const change = {
+      rowIndex: rowIndex + 1,
+      columnIndex: cellIndex - 1,
+      value,
+    }; 
+    if (changes.some((change) =>
+          change.rowIndex === rowIndex+1 && change.columnIndex === cellIndex - 1)) {
+            const updatedChanges = changes.map((changeItem) =>
+               changeItem.rowIndex === rowIndex+1 &&
+               changeItem.columnIndex === cellIndex - 1
+                 ? { ...changeItem, value }
+                  : changeItem );
+      setChanges(updatedChanges);
+    } else {
+      const updatedChanges = [...changes, change];
+      setChanges(updatedChanges);
+    }
+    console.log(changes)
+  }
 
     return (
       <table>
@@ -33,8 +59,8 @@ const Table = (props) => {
         <tbody>
           {tableData.slice(1).map((row, rowIndex) => (
             <tr key={rowIndex} id={rowIndex}>
-              <th scope="row"></th>
-              {row.slice(1).map((cell, cellIndex) => (
+              
+              {row.map((cell, cellIndex) => (
                 <td
                   key={cellIndex}
                   onDoubleClick={() => handleCellClick(rowIndex, cellIndex)}
@@ -46,7 +72,7 @@ const Table = (props) => {
                       type="text"
                       value={cell}
                       onChange={handleInputChange}
-                      onBlur={() => setEditableCell(null)} 
+                      onBlur={handleCellValueChanged} //record changes into change tracker array
                     />
                   ) : cell
                   }
