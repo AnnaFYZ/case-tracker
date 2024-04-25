@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import Table from './Table';
+import MyTable from './TableAnt';
 import { ExcelContext, ChangesContext } from './ExcelData/ExcelContext';
 
 function App() {

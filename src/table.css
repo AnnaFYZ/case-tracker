@@ -32,3 +32,24 @@ caption {
     outline: none;
     background-color: transparent;
 }
+
+.selectRows {
+    margin-left: 3px;
+}
+
+.hiddenRow {
+    display: none;
+}
+
+.dropdown-label {
+    border: black 2px solid;
+    max-width: fit-content;
+    padding: 2px;
+    align-self: flex-end;
+}
+
+.dropdown {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+}

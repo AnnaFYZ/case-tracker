@@ -1,11 +1,14 @@
 import "./table.css";
 import { useContext, useState } from "react";
 import { ExcelContext, ChangesContext } from "./ExcelData/ExcelContext";
+import CheckboxDropdown from "./dropdownList";
+// import { Table } from "antd";
 
 const Table = (props) => {
   const { tableData, setTableData } = useContext(ExcelContext);
   const [editableCell, setEditableCell] = useState(null);
   const { changes, setChanges} = useContext(ChangesContext);
+  const [hiddenRows, setHiddenRows] = useState([]);
   
   const handleCellClick = (rowIndex, cellIndex, event) => {
     setEditableCell({ rowIndex, cellIndex }); 
@@ -52,6 +55,20 @@ const Table = (props) => {
     }
   };
 
+  const handleFilterChange = () => {
+
+  }
+
+  const getUniqueValues = (tableData, columnIndex) => {
+    const uniqueValues = new Set();
+    tableData.slice(1).forEach((row) => {
+      if (row[columnIndex]) {
+        uniqueValues.add(row[columnIndex]);
+      }
+    });
+    return Array.from(uniqueValues);
+  };
+
 
     return (
       <table>
@@ -62,7 +79,15 @@ const Table = (props) => {
                 {header === "status" || header === "assigned to" ? (
                   <div>
                     {header}
-                    <select></select>
+                    <div 
+                      className="selectRows"
+                      onChange={(e) =>
+                        handleFilterChange(e.target.value, tableData)
+                      }
+                    
+                    >
+                      <CheckboxDropdown options={getUniqueValues(tableData, index)}/>
+                    </div>
                   </div>
                 ) : (
                   header
@@ -73,7 +98,12 @@ const Table = (props) => {
         </thead>
         <tbody>
           {tableData.slice(1).map((row, rowIndex) => (
-            <tr key={rowIndex} id={rowIndex}>
+            <tr
+              key={rowIndex}
+              id={rowIndex}
+              const
+              rowClassName={hiddenRows[rowIndex] ? "hiddenRow" : ""}
+            >
               {row.map((cell, cellIndex) => (
                 <td
                   className={
