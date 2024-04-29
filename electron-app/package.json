@@ -1,9 +1,22 @@
 {
-  "name": "electron-app",
-  "productName": "electron-app",
+  "name": "case-tracker",
+  "productName": "case-tracker",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Case tracker for internal use only",
   "main": "src/index.js",
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "cors": "^2.8.5",
+    "electron": "^15.4.0",
+    "exceljs": "^4.4.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4",
+    "electron-squirrel-startup": "^1.0.0"
+  },
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -27,8 +40,5 @@
     "name": "AnnaFYZ",
     "email": "113105718+AnnaFYZ@users.noreply.github.com"
   },
-  "license": "MIT",
-  "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
-  }
+  "license": "MIT"  
 }
