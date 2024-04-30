@@ -2,24 +2,47 @@
   "name": "case-tracker",
   "version": "0.1.0",
   "private": true,
+  "description": "Case Tracker App",
+  "author": "AnnaFYZ",
+  "homepage": "./",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "cors": "^2.8.5",
-    "electron": "^15.4.0",
     "exceljs": "^4.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
+  "main": "public/electron.js",
   "scripts": {
     "start": "react-scripts start",
-    "electron": "electron main.js",
+    "electron": "electron .",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron-build": "electron-builder build",
+    "electron-pack": "build --em.main=build/electron.js"
+  },
+  "build": {
+    "appId": "com.example.electron-cra",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "win": {
+      "target": "portable"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true
+    }
   },
   "eslintConfig": {
     "extends": [
@@ -40,6 +63,7 @@
     ]
   },
   "devDependencies": {
-    "electron": "^29.1.6"
+    "electron": "^15.4.0",
+    "electron-builder": "^24.13.3"
   }
 }
