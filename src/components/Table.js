@@ -1,19 +1,12 @@
 import "./table.css";
 import { useContext, useState } from "react";
-import {
-  ExcelContext,
-  ChangesContext,
-  DisplayedColumns,
-  RowsFilter,
-} from "../ExcelData/ExcelContext";
+import { ExcelContext, ChangesContext, } from "../ExcelData/ExcelContext";
 
 const Table = ({columns}) => {
   const { tableData, setTableData } = useContext(ExcelContext);
   const [editableCell, setEditableCell] = useState(null);
   const { changes, setChanges } = useContext(ChangesContext);
-  const hiddenColumnIndex = 3;
-  console.log(columns)
-
+  
   const handleCellClick = (rowIndex, cellIndex, event) => {
     setEditableCell({ rowIndex, cellIndex });
   };

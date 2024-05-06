@@ -8,13 +8,13 @@ import ListItemText from "@mui/material/ListItemText";
 import Select from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
+const ITEM_HEIGHT = 36;
+const ITEM_PADDING_TOP = 4;
 const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
+      width: 200,
     },
   },
 };
@@ -22,7 +22,7 @@ const MenuProps = {
 const theme = createTheme({
   palette: {
     premier: {
-      main: "#fff"
+      main: "#fff",
     },
     secondary: {
       main: "#ba68c8",
@@ -42,6 +42,7 @@ const theme = createTheme({
         input: {
           color: "#000",
           backgroundColor: "#ba68c8",
+          padding: "6px",
         },
       },
     },
@@ -49,6 +50,14 @@ const theme = createTheme({
       styleOverrides: {
         outlined: {
           color: "#fff",
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          paddingTop: "0px", 
+          paddingBottom: "0px", 
         },
       },
     },
@@ -85,7 +94,7 @@ export const ColumnManager = ({tableData, setDisplayedColumns}) => {
               top: -10,
             }}
           >
-            Choose Columns to Show
+            Choose Columns to Hide
           </InputLabel>
           <Select
             labelId="demo-multiple-checkbox-label"
@@ -93,7 +102,7 @@ export const ColumnManager = ({tableData, setDisplayedColumns}) => {
             multiple
             value={columnNames}
             onChange={handleChange}
-            input={<OutlinedInput label="Tag" />}
+            input={<OutlinedInput label="Hidden Columns" />}
             renderValue={(selected) => selected.join(", ")}
             MenuProps={MenuProps}
           >
@@ -105,7 +114,7 @@ export const ColumnManager = ({tableData, setDisplayedColumns}) => {
                 </MenuItem>
               ))
             ) : (
-              <MenuItem disabled>No columns available</MenuItem>
+              <MenuItem disabled>Nothing to Hide</MenuItem>
             )}
           </Select>
         </FormControl>
