@@ -1,24 +1,20 @@
-.App {
+/* .App {
   text-align: center;
-}
+} */
 
 .App-header {
   background-color: #282c34;
-  min-height: 20vh;
+  /* min-height: 20vh; */
   display: grid;
-  grid-template-areas: 
-  "left up-right"
-  "left down-right";
-  /* align-items: center;
-  justify-content: center; */
-  font-size: calc(10px + 2vmin);
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, auto);
+  font-size: calc(10px + 1vmin);
   color: white;
 }
 
 .enterLocation {
-  grid-area: left;
-  display: flex;
-  align-items: center;
+  grid-column: 1 / 4;
+  grid-row: 1;
   padding: 2rem;
 }
 
@@ -39,8 +35,17 @@ button {
 
 .saveData {
   margin: 1rem;
-  display: flex;
+  grid-column: 5;
+  grid-row: 1;
   justify-content: right;
+  
+}
+
+.manageData {
+  grid-column: 1/-1;
+  grid-row: 2;
+  display: flex;
+  
 }
 
 

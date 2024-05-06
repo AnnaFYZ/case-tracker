@@ -48,7 +48,7 @@ const readExcelFile = async (path) => {
     });
 
     //return rowData;
-    return fillingGaps(rowData);
+    return fillingGaps(rowData, "");
   } catch (error) {
     console.error("Error reading Excel file:", error);
   }

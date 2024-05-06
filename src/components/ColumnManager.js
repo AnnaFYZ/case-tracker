@@ -1,5 +1,4 @@
-import { useContext, useState } from "react";
-import { ExcelContext, ChangesContext } from "../ExcelData/ExcelContext";
+import { useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -22,6 +21,9 @@ const MenuProps = {
 
 const theme = createTheme({
   palette: {
+    premier: {
+      main: "#fff"
+    },
     secondary: {
       main: "#ba68c8",
     },
@@ -31,19 +33,22 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#ba68c8",
-            backgroundColor: "#ba68c8",
-            color: "white",
+            borderColor: "#ba68c8", // Border color when focused
           },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#ba68c8", // Border color
+          },
+        },
+        input: {
+          color: "#000",
+          backgroundColor: "#ba68c8",
         },
       },
     },
     MuiInputLabel: {
       styleOverrides: {
         outlined: {
-          "&.Mui-focused": {
-            color: "#ba68c8",
-          },
+          color: "#fff",
         },
       },
     },
@@ -51,30 +56,21 @@ const theme = createTheme({
 });
 
 
-const columns = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
-
-export const ColumnManager = () => {
-  const [columnIndexes, setColumnIndexes] = useState([]);
+export const ColumnManager = ({tableData, setDisplayedColumns}) => {
+  const [columnNames, setColumnNames] = useState([]);
+  const columns = tableData[0];
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setColumnIndexes(
-      // On autofill we get a stringified value.
+     const checkedColumnIndexes = value.map((columnName) =>
+       tableData[0].indexOf(columnName)
+     );
+    setColumnNames(
       typeof value === "string" ? value.split(",") : value
     );
+    setDisplayedColumns(checkedColumnIndexes)
   };
 
   return (
@@ -83,12 +79,10 @@ export const ColumnManager = () => {
         <FormControl sx={{ m: 1, width: 300 }}>
           <InputLabel
             id="demo-multiple-checkbox-label"
+            color="premier"
             sx={{
               position: "absolute",
               top: -10,
-              color: "white",
-              backgroundColor: "transparent",
-              // padding: "0 5px",
             }}
           >
             Choose Columns to Show
@@ -97,18 +91,22 @@ export const ColumnManager = () => {
             labelId="demo-multiple-checkbox-label"
             id="demo-multiple-checkbox"
             multiple
-            value={columnIndexes}
+            value={columnNames}
             onChange={handleChange}
             input={<OutlinedInput label="Tag" />}
             renderValue={(selected) => selected.join(", ")}
             MenuProps={MenuProps}
           >
-            {columns.map((column) => (
-              <MenuItem key={column} value={column}>
-                <Checkbox checked={columnIndexes.indexOf(column) > -1} />
-                <ListItemText primary={column} />
-              </MenuItem>
-            ))}
+            {columns.length > 1 ? (
+              columns.map((column, columnIndex) => (
+                <MenuItem key={column} value={column}>
+                  <Checkbox checked={columnNames.indexOf(column) > -1} />
+                  <ListItemText primary={column} />
+                </MenuItem>
+              ))
+            ) : (
+              <MenuItem disabled>No columns available</MenuItem>
+            )}
           </Select>
         </FormControl>
       </ThemeProvider>
